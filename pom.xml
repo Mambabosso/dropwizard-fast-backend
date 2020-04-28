@@ -16,6 +16,7 @@
     <properties>
         <dropwizard.version>2.0.8</dropwizard.version>
         <querydsl.version>4.3.1</querydsl.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
         <lombok.version>1.18.12</lombok.version>
         <maven-compiler>8</maven-compiler>
     </properties>
@@ -49,6 +50,10 @@
             <artifactId>dropwizard-auth</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-jackson</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -59,6 +64,12 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
             <version>${querydsl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>${jbcrypt.version}</version>
         </dependency>
 
         <dependency>
