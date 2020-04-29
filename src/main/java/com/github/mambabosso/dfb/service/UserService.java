@@ -7,29 +7,28 @@ import com.github.mambabosso.dfb.util.Result;
 import lombok.NonNull;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class RegisterService extends BaseService<RegisterService> {
+public class UserService extends BaseDAOService<UserDAO> {
 
-    private final UserDAO userDAO;
-
-    public RegisterService(@NonNull final UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(@NonNull final UserDAO baseDAO) {
+        super(baseDAO);
     }
 
-    public Result<User> register(@NonNull final String name, @NonNull final String password) {
+    public Result<User> create(final String name, final String password) {
         try {
-            if (name.trim().isEmpty() || !ValidatorService.isValidName(name)) {
+            UserDAO dao = getBaseDAO();
+            if (name == null || name.trim().isEmpty() || !ValidatorService.isValidUserName(name)) {
                 return Result.failure(Errors.USER_NAME_VALIDATION_FAIL);
             }
-            if (password.trim().isEmpty() || !ValidatorService.isValidPassword(password)) {
+            if (password == null || password.trim().isEmpty() || !ValidatorService.isValidUserPassword(password)) {
                 return Result.failure(Errors.USER_PASSWORD_VALIDATION_FAIL);
             }
-            if (userDAO.getUserByName(name).isPresent()) {
+            if (dao.getUserByName(name).isPresent()) {
                 return Result.failure(Errors.USER_NAME_ALREADY_TAKEN);
             }
             User user = new User();
             user.setName(name);
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(14)));
-            if (userDAO.create(user) != null) {
+            if (dao.create(user) != null) {
                 return Result.success(user);
             }
             return Result.failure(Errors.UNKNOWN);
