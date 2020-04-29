@@ -1,6 +1,6 @@
-package com.github.mambabosso.dropwizard.fast.backend.model.user;
+package com.github.mambabosso.dfb.model.user;
 
-import com.github.mambabosso.dropwizard.fast.backend.model.role.Role;
+import com.github.mambabosso.dfb.model.role.Role;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,7 +28,7 @@ public final class User implements Principal, Serializable {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^@[a-zA-Z0-9]{4,20}$", message = "invalid user name")
+    @Pattern(regexp = "^(?![0-9])[a-zA-Z0-9]{4,30}$", message = "invalid user name")
     @Column(name = "name", unique = true)
     private String name;
 

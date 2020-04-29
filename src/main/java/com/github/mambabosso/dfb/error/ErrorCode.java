@@ -1,4 +1,4 @@
-package com.github.mambabosso.dropwizard.fast.backend.error;
+package com.github.mambabosso.dfb.error;
 
 import lombok.Data;
 

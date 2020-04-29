@@ -1,9 +1,9 @@
-package com.github.mambabosso.dropwizard.fast.backend.service;
+package com.github.mambabosso.dfb.service;
 
-import com.github.mambabosso.dropwizard.fast.backend.error.Errors;
-import com.github.mambabosso.dropwizard.fast.backend.model.user.User;
-import com.github.mambabosso.dropwizard.fast.backend.model.user.UserDAO;
-import com.github.mambabosso.dropwizard.fast.backend.util.Result;
+import com.github.mambabosso.dfb.model.user.User;
+import com.github.mambabosso.dfb.error.Errors;
+import com.github.mambabosso.dfb.model.user.UserDAO;
+import com.github.mambabosso.dfb.util.Result;
 import lombok.NonNull;
 import org.mindrot.jbcrypt.BCrypt;
 

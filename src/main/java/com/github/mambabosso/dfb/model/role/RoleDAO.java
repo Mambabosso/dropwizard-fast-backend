@@ -1,13 +1,13 @@
-package com.github.mambabosso.dropwizard.fast.backend.model.role;
+package com.github.mambabosso.dfb.model.role;
 
-import com.github.mambabosso.dropwizard.fast.backend.dao.BaseDAO;
+import com.github.mambabosso.dfb.dao.BaseDAO;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public class RoleDAO extends BaseDAO<Role> {
+public class RoleDAO extends BaseDAO<Role, UUID> {
 
     private final QRole role = QRole.role;
 
@@ -15,6 +15,7 @@ public class RoleDAO extends BaseDAO<Role> {
         super(sessionFactory);
     }
 
+    @Override
     public UUID create(Role role) {
         return (UUID)save(role);
     }

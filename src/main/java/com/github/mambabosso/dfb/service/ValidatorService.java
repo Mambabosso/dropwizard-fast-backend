@@ -1,4 +1,4 @@
-package com.github.mambabosso.dropwizard.fast.backend.service;
+package com.github.mambabosso.dfb.service;
 
 import lombok.NonNull;
 

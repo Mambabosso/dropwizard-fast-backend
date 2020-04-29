@@ -1,8 +1,8 @@
-package com.github.mambabosso.dropwizard.fast.backend.util;
+package com.github.mambabosso.dfb.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.mambabosso.dropwizard.fast.backend.error.ErrorCode;
+import com.github.mambabosso.dfb.error.ErrorCode;
 import lombok.Data;
 import lombok.NonNull;
 

@@ -1,4 +1,4 @@
-package com.github.mambabosso.dropwizard.fast.backend.model.role;
+package com.github.mambabosso.dfb.model.role;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,8 +25,12 @@ public final class Role implements Serializable {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "invalid role name")
+    @Pattern(regexp = "^(?![0-9_-])[a-zA-Z0-9_-]{2,30}$", message = "invalid role name")
     @Column(name = "name", unique = true)
     private String name;
+
+    @NotNull
+    @Column(name = "locked")
+    private boolean locked;
 
 }

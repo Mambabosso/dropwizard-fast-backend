@@ -1,4 +1,4 @@
-package com.github.mambabosso.dropwizard.fast.backend.dao;
+package com.github.mambabosso.dfb.dao;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.jpa.hibernate.HibernateQuery;
@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory;
 import java.io.Serializable;
 import java.util.Optional;
 
-public abstract class BaseDAO<T extends Serializable> extends AbstractDAO<T> {
+public abstract class BaseDAO<T extends Serializable, PK extends Serializable> extends AbstractDAO<T> {
 
     @Getter
     private final SessionFactory sessionFactory;
@@ -52,5 +52,7 @@ public abstract class BaseDAO<T extends Serializable> extends AbstractDAO<T> {
     protected Optional<T> tryGet(@NonNull final Serializable id) {
         return Optional.ofNullable(session().get(getEntityClass(), id));
     }
+
+    public abstract PK create(@NonNull final T value);
 
 }

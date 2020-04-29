@@ -1,4 +1,4 @@
-package com.github.mambabosso.dropwizard.fast.backend;
+package com.github.mambabosso.dfb;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.ConfiguredBundle;

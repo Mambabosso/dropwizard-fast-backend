@@ -1,13 +1,13 @@
-package com.github.mambabosso.dropwizard.fast.backend.model.user;
+package com.github.mambabosso.dfb.model.user;
 
-import com.github.mambabosso.dropwizard.fast.backend.dao.BaseDAO;
+import com.github.mambabosso.dfb.dao.BaseDAO;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserDAO extends BaseDAO<User> {
+public class UserDAO extends BaseDAO<User, UUID> {
 
     private final QUser user = QUser.user;
 
@@ -15,6 +15,7 @@ public class UserDAO extends BaseDAO<User> {
         super(sessionFactory);
     }
 
+    @Override
     public UUID create(User user) {
         return (UUID)save(user);
     }
