@@ -4,12 +4,11 @@ import com.github.mambabosso.dfb.model.user.User;
 import com.github.mambabosso.dfb.error.Errors;
 import com.github.mambabosso.dfb.model.user.UserDAO;
 import com.github.mambabosso.dfb.util.Result;
-import lombok.NonNull;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService extends BaseDAOService<UserDAO> {
 
-    public UserService(@NonNull final UserDAO baseDAO) {
+    public UserService(final UserDAO baseDAO) {
         super(baseDAO);
     }
 
@@ -28,7 +27,7 @@ public class UserService extends BaseDAOService<UserDAO> {
             User user = new User();
             user.setName(name);
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(14)));
-            if (dao.create(user) != null) {
+            if (dao.insert(user) != null) {
                 return Result.success(user);
             }
             return Result.failure(Errors.UNKNOWN);

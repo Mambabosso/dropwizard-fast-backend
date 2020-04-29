@@ -4,11 +4,10 @@ import com.github.mambabosso.dfb.error.Errors;
 import com.github.mambabosso.dfb.model.role.Role;
 import com.github.mambabosso.dfb.model.role.RoleDAO;
 import com.github.mambabosso.dfb.util.Result;
-import lombok.NonNull;
 
 public class RoleService extends BaseDAOService<RoleDAO> {
 
-    public RoleService(@NonNull RoleDAO baseDAO) {
+    public RoleService(final RoleDAO baseDAO) {
         super(baseDAO);
     }
 
@@ -23,7 +22,7 @@ public class RoleService extends BaseDAOService<RoleDAO> {
             }
             Role role = new Role();
             role.setName(name);
-            if (dao.create(role) != null) {
+            if (dao.insert(role) != null) {
                 return Result.success(role);
             }
             return Result.failure(Errors.UNKNOWN);
