@@ -1,6 +1,7 @@
 package com.github.mambabosso.dfb.model.user;
 
 import com.github.mambabosso.dfb.dao.BaseDAO;
+import com.querydsl.jpa.hibernate.HibernateUpdateClause;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
@@ -22,7 +23,12 @@ public class UserDAO extends BaseDAO<User, UUID> {
 
     @Override
     public boolean update(@NonNull UUID id, @NonNull User user) {
-        return update(_user).where(_user.id.eq(id)).set(_user, user).execute() > 0;
+        HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
+        clause.set(_user.name, user.getName());
+        clause.set(_user.password, user.getPassword());
+        clause.set(_user.roles, user.getRoles());
+        clause.set(_user.locked, user.isLocked());
+        return clause.execute() > 0;
     }
 
     @Override

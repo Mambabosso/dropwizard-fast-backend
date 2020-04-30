@@ -2,6 +2,11 @@
 logs/
 *.class
 
+# Maven-Wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
 # Maven
 target/
 

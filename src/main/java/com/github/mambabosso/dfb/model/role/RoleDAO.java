@@ -1,6 +1,7 @@
 package com.github.mambabosso.dfb.model.role;
 
 import com.github.mambabosso.dfb.dao.BaseDAO;
+import com.querydsl.jpa.hibernate.HibernateUpdateClause;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
@@ -22,7 +23,10 @@ public class RoleDAO extends BaseDAO<Role, UUID> {
 
     @Override
     public boolean update(@NonNull UUID id, @NonNull Role role) {
-        return update(_role).where(_role.id.eq(id)).set(_role, role).execute() > 0;
+        HibernateUpdateClause clause = update(_role).where(_role.id.eq(id));
+        clause.set(_role.name, role.getName());
+        clause.set(_role.locked, role.isLocked());
+        return clause.execute() > 0;
     }
 
     @Override

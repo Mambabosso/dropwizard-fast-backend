@@ -36,13 +36,13 @@ public final class User implements Principal, Serializable {
     @Column(name = "password")
     private String password;
 
-    @NotNull
-    @Column(name = "locked")
-    private boolean locked;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<Role> roles;
+
+    @NotNull
+    @Column(name = "locked")
+    private boolean locked;
 
     @Override
     public String getName() {
