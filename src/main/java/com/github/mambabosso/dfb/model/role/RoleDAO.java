@@ -17,13 +17,13 @@ public class RoleDAO extends BaseDAO<Role, UUID> {
     }
 
     @Override
-    public Optional<Role> getById(@NonNull UUID id) {
-        return Optional.ofNullable(query().select(_role).from(_role).where(_role.id.eq(id)).fetchFirst());
+    public UUID insert(@NonNull Role role) {
+        return (UUID)save(role);
     }
 
     @Override
-    public UUID insert(@NonNull Role role) {
-        return (UUID)save(role);
+    public Optional<Role> getById(@NonNull UUID id) {
+        return Optional.ofNullable(query().select(_role).from(_role).where(_role.id.eq(id)).fetchFirst());
     }
 
     @Override

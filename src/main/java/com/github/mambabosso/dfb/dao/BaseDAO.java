@@ -49,9 +49,9 @@ public abstract class BaseDAO<T extends Serializable, PK extends Serializable> e
         return query(0, 0);
     }
 
-    public abstract Optional<T> getById(@NonNull final PK id);
-
     public abstract PK insert(@NonNull final T value);
+
+    public abstract Optional<T> getById(@NonNull final PK id);
 
     public abstract boolean update(@NonNull final PK id, @NonNull final T value);
 

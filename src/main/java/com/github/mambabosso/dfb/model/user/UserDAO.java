@@ -17,13 +17,13 @@ public class UserDAO extends BaseDAO<User, UUID> {
     }
 
     @Override
-    public Optional<User> getById(@NonNull UUID id) {
-        return Optional.ofNullable(query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst());
+    public UUID insert(@NonNull User user) {
+        return (UUID)save(user);
     }
 
     @Override
-    public UUID insert(@NonNull User user) {
-        return (UUID)save(user);
+    public Optional<User> getById(@NonNull UUID id) {
+        return Optional.ofNullable(query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst());
     }
 
     @Override

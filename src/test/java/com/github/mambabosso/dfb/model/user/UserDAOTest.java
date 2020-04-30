@@ -1,5 +1,6 @@
-package com.github.mambabosso.dfb.model.role;
+package com.github.mambabosso.dfb.model.user;
 
+import com.github.mambabosso.dfb.model.role.Role;
 import io.dropwizard.testing.junit5.DAOTestExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.junit.jupiter.api.*;
@@ -8,17 +9,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
-public class RoleDAOTest {
+public class UserDAOTest {
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
+            .addEntityClass(User.class)
             .addEntityClass(Role.class)
             .build();
 
-    private static RoleDAO dao;
+    private static UserDAO dao;
 
     @BeforeAll
     public static void init() {
-        dao = new RoleDAO(daoTestRule.getSessionFactory());
+        dao = new UserDAO(daoTestRule.getSessionFactory());
     }
 
     @AfterAll
