@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public abstract class BaseDAO<T extends Serializable, PK extends Serializable> extends AbstractDAO<T> {
 
@@ -47,6 +48,8 @@ public abstract class BaseDAO<T extends Serializable, PK extends Serializable> e
     protected HibernateQuery<T> query() {
         return query(0, 0);
     }
+
+    public abstract Optional<T> getById(@NonNull final PK id);
 
     public abstract PK insert(@NonNull final T value);
 

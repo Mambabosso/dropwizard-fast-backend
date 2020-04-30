@@ -17,6 +17,11 @@ public class UserDAO extends BaseDAO<User, UUID> {
     }
 
     @Override
+    public Optional<User> getById(@NonNull UUID id) {
+        return Optional.ofNullable(query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst());
+    }
+
+    @Override
     public UUID insert(@NonNull User user) {
         return (UUID)save(user);
     }
