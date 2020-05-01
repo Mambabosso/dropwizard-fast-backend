@@ -4,6 +4,7 @@ import com.github.mambabosso.dfb.error.Errors;
 import com.github.mambabosso.dfb.service.BaseDAOService;
 import com.github.mambabosso.dfb.util.Result;
 import com.github.mambabosso.dfb.validator.Validator;
+import org.joda.time.DateTime;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.PersistenceException;
@@ -26,6 +27,8 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
             }
             Password password = new Password();
             password.setHash(BCrypt.hashpw(plain_password.get(), BCrypt.gensalt(14)));
+            password.setLastAccess(DateTime.now());
+            password.setCreatedAt(password.getLastAccess());
             UUID id = dao.insert(password);
             if (id != null) {
                 return Result.success(dao.getById(id));

@@ -2,6 +2,7 @@ package com.github.mambabosso.dfb.model.password;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,14 @@ public final class Password implements Serializable {
     @NotNull
     @Column(name = "hash")
     private String hash;
+
+    @NotNull
+    @Column(name = "last_access")
+    private DateTime lastAccess;
+
+    @NotNull
+    @Column(name = "created_at")
+    private DateTime createdAt;
 
     @NotNull
     @Column(name = "locked")

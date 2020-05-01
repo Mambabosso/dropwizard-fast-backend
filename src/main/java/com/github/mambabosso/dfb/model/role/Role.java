@@ -2,6 +2,7 @@ package com.github.mambabosso.dfb.model.role;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,10 @@ public final class Role implements Serializable {
     @Pattern(regexp = "^(?![0-9_-])[a-zA-Z0-9_-]{2,30}$", message = "invalid role name")
     @Column(name = "name", unique = true)
     private String name;
+
+    @NotNull
+    @Column(name = "created_at")
+    private DateTime createdAt;
 
     @NotNull
     @Column(name = "locked")

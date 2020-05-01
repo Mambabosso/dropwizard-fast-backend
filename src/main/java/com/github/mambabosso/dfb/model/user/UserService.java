@@ -2,12 +2,15 @@ package com.github.mambabosso.dfb.model.user;
 
 import com.github.mambabosso.dfb.error.Errors;
 import com.github.mambabosso.dfb.model.password.Password;
+import com.github.mambabosso.dfb.model.role.Role;
 import com.github.mambabosso.dfb.service.BaseDAOService;
 import com.github.mambabosso.dfb.util.Result;
 import com.github.mambabosso.dfb.validator.Validator;
+import org.joda.time.DateTime;
 
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
+import java.util.Set;
 import java.util.UUID;
 
 public class UserService extends BaseDAOService<UserDAO> {
@@ -18,10 +21,10 @@ public class UserService extends BaseDAOService<UserDAO> {
         super(baseDAO);
     }
 
-    public Result<User> create(Validator<String> name, Validator<Password> password) {
+    public Result<User> create(Validator<String> name, Validator<Password> password, Validator<Set<Role>> roles) {
         try {
             UserDAO dao = getBaseDAO();
-            if (name == null || !name.isValid() || password == null || !password.isValid()) {
+            if (name == null || !name.isValid() || password == null || !password.isValid() || (roles != null && !roles.isValid())) {
                 return Result.failure(errors.USER_VALIDATION_FAILURE);
             }
             String userName = name.get();
@@ -31,6 +34,10 @@ public class UserService extends BaseDAOService<UserDAO> {
             User user = new User();
             user.setName(userName);
             user.setPassword(password.get());
+            if (roles != null) {
+                user.setRoles(roles.get());
+            }
+            user.setCreatedAt(DateTime.now());
             UUID id = dao.insert(user);
             if (id != null) {
                 return Result.success(dao.getById(id));
@@ -43,6 +50,10 @@ public class UserService extends BaseDAOService<UserDAO> {
         } catch (Exception ex) {
             return Result.failure(errors.UNKNOWN_USER_FAILURE.setException(ex));
         }
+    }
+
+    public Result<User> create(Validator<String> name, Validator<Password> password) {
+        return create(name, password, null);
     }
 
 }

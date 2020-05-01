@@ -4,6 +4,7 @@ import com.github.mambabosso.dfb.error.Errors;
 import com.github.mambabosso.dfb.service.BaseDAOService;
 import com.github.mambabosso.dfb.util.Result;
 import com.github.mambabosso.dfb.validator.Validator;
+import org.joda.time.DateTime;
 
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
@@ -29,6 +30,7 @@ public class RoleService extends BaseDAOService<RoleDAO> {
             }
             Role role = new Role();
             role.setName(roleName);
+            role.setCreatedAt(DateTime.now());
             UUID id = dao.insert(role);
             if (id != null) {
                 return Result.success(dao.getById(id));

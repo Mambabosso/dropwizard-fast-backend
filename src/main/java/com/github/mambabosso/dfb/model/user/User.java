@@ -4,6 +4,7 @@ import com.github.mambabosso.dfb.model.password.Password;
 import com.github.mambabosso.dfb.model.role.Role;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,10 @@ public final class User implements Principal, Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<Role> roles;
+
+    @NotNull
+    @Column(name = "created_at")
+    private DateTime createdAt;
 
     @NotNull
     @Column(name = "locked")
