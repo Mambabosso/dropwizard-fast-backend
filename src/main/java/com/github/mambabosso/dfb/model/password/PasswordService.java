@@ -13,8 +13,6 @@ import java.util.UUID;
 
 public class PasswordService extends BaseDAOService<PasswordDAO> {
 
-    private final Errors errors = Errors.newInstance();
-
     public PasswordService(PasswordDAO baseDAO) {
         super(baseDAO);
     }
@@ -23,7 +21,7 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
         try {
             PasswordDAO dao = getBaseDAO();
             if (plain_password == null || !plain_password.isValid()) {
-                return Result.failure(errors.PASSWORD_VALIDATION_FAILURE);
+                return Result.failure(Errors.PASSWORD_VALIDATION_FAILURE.get());
             }
             Password password = new Password();
             password.setHash(BCrypt.hashpw(plain_password.get(), BCrypt.gensalt(14)));
@@ -33,13 +31,13 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
             if (id != null) {
                 return Result.success(dao.getById(id));
             }
-            return Result.failure(errors.UNKNOWN_PASSWORD_FAILURE);
+            return Result.failure(Errors.UNKNOWN_PASSWORD_FAILURE.get());
         } catch (PersistenceException ex) {
-            return Result.failure(errors.PASSWORD_PERSISTENCE_FAILURE.setException(ex));
+            return Result.failure(Errors.PASSWORD_PERSISTENCE_FAILURE.get(ex));
         } catch (ConstraintViolationException ex) {
-            return Result.failure(errors.PASSWORD_VALIDATION_FAILURE.setException(ex));
+            return Result.failure(Errors.PASSWORD_VALIDATION_FAILURE.get(ex));
         } catch (Exception ex) {
-            return Result.failure(errors.UNKNOWN_PASSWORD_FAILURE.setException(ex));
+            return Result.failure(Errors.UNKNOWN_PASSWORD_FAILURE.get(ex));
         }
     }
 

@@ -15,8 +15,6 @@ import java.util.UUID;
 
 public class UserService extends BaseDAOService<UserDAO> {
 
-    private final Errors errors = Errors.newInstance();
-
     public UserService(UserDAO baseDAO) {
         super(baseDAO);
     }
@@ -25,11 +23,11 @@ public class UserService extends BaseDAOService<UserDAO> {
         try {
             UserDAO dao = getBaseDAO();
             if (name == null || !name.isValid() || password == null || !password.isValid() || (roles != null && !roles.isValid())) {
-                return Result.failure(errors.USER_VALIDATION_FAILURE);
+                return Result.failure(Errors.USER_VALIDATION_FAILURE.get());
             }
             String userName = name.get();
             if (dao.getUserByName(userName).isPresent()) {
-                return Result.failure(errors.USER_ALREADY_EXISTS);
+                return Result.failure(Errors.USER_ALREADY_EXISTS.get());
             }
             User user = new User();
             user.setName(userName);
@@ -42,13 +40,13 @@ public class UserService extends BaseDAOService<UserDAO> {
             if (id != null) {
                 return Result.success(dao.getById(id));
             }
-            return Result.failure(errors.UNKNOWN_USER_FAILURE);
+            return Result.failure(Errors.UNKNOWN_USER_FAILURE.get());
         } catch (PersistenceException ex) {
-            return Result.failure(errors.USER_PERSISTENCE_FAILURE.setException(ex));
+            return Result.failure(Errors.USER_PERSISTENCE_FAILURE.get(ex));
         } catch (ConstraintViolationException ex) {
-            return Result.failure(errors.USER_VALIDATION_FAILURE.setException(ex));
+            return Result.failure(Errors.USER_VALIDATION_FAILURE.get(ex));
         } catch (Exception ex) {
-            return Result.failure(errors.UNKNOWN_USER_FAILURE.setException(ex));
+            return Result.failure(Errors.UNKNOWN_USER_FAILURE.get(ex));
         }
     }
 

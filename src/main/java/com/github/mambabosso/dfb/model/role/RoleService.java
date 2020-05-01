@@ -12,8 +12,6 @@ import java.util.UUID;
 
 public class RoleService extends BaseDAOService<RoleDAO> {
 
-    private final Errors errors = Errors.newInstance();
-
     public RoleService(RoleDAO baseDAO) {
         super(baseDAO);
     }
@@ -22,11 +20,11 @@ public class RoleService extends BaseDAOService<RoleDAO> {
         try {
             RoleDAO dao = getBaseDAO();
             if (name == null || !name.isValid()) {
-                return Result.failure(errors.ROLE_VALIDATION_FAILURE);
+                return Result.failure(Errors.ROLE_VALIDATION_FAILURE.get());
             }
             String roleName = name.get();
             if (dao.getRoleByName(roleName).isPresent()) {
-                return Result.failure(errors.ROLE_ALREADY_EXISTS);
+                return Result.failure(Errors.ROLE_ALREADY_EXISTS.get());
             }
             Role role = new Role();
             role.setName(roleName);
@@ -35,13 +33,13 @@ public class RoleService extends BaseDAOService<RoleDAO> {
             if (id != null) {
                 return Result.success(dao.getById(id));
             }
-            return Result.failure(errors.UNKNOWN_ROLE_FAILURE);
+            return Result.failure(Errors.UNKNOWN_ROLE_FAILURE.get());
         } catch (PersistenceException ex) {
-            return Result.failure(errors.ROLE_PERSISTENCE_FAILURE.setException(ex));
+            return Result.failure(Errors.ROLE_PERSISTENCE_FAILURE.get(ex));
         } catch (ConstraintViolationException ex) {
-            return Result.failure(errors.ROLE_VALIDATION_FAILURE.setException(ex));
+            return Result.failure(Errors.ROLE_VALIDATION_FAILURE.get(ex));
         } catch (Exception ex) {
-            return Result.failure(errors.UNKNOWN_ROLE_FAILURE.setException(ex));
+            return Result.failure(Errors.UNKNOWN_ROLE_FAILURE.get(ex));
         }
     }
 
