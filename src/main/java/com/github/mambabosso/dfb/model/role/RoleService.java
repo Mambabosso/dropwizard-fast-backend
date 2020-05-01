@@ -20,7 +20,7 @@ public class RoleService extends BaseDAOService<RoleDAO> {
     public Result<Role> create(Validator<String> name) {
         try {
             RoleDAO dao = getBaseDAO();
-            if (name == null || !name.validate()) {
+            if (name == null || !name.isValid()) {
                 return Result.failure(errors.ROLE_VALIDATION_FAILURE);
             }
             String roleName = name.get();

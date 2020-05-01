@@ -21,7 +21,7 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
     public Result<Password> create(Validator<String> plain_password) {
         try {
             PasswordDAO dao = getBaseDAO();
-            if (plain_password == null || !plain_password.validate()) {
+            if (plain_password == null || !plain_password.isValid()) {
                 return Result.failure(errors.PASSWORD_VALIDATION_FAILURE);
             }
             Password password = new Password();

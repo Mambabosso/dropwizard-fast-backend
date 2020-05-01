@@ -21,7 +21,7 @@ public class UserService extends BaseDAOService<UserDAO> {
     public Result<User> create(Validator<String> name, Validator<Password> password) {
         try {
             UserDAO dao = getBaseDAO();
-            if (name == null || !name.validate() || password == null || !password.validate()) {
+            if (name == null || !name.isValid() || password == null || !password.isValid()) {
                 return Result.failure(errors.USER_VALIDATION_FAILURE);
             }
             String userName = name.get();
