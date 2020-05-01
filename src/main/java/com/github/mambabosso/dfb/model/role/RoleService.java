@@ -43,4 +43,22 @@ public class RoleService extends BaseDAOService<RoleDAO> {
         }
     }
 
+    public Result<Long> update(UUID id, Role role) {
+        try {
+            RoleDAO dao = getBaseDAO();
+            return Result.success(dao.update(id, role));
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_ROLE_FAILURE.get(ex));
+        }
+    }
+
+    public Result<Long> delete(UUID id) {
+        try {
+            RoleDAO dao = getBaseDAO();
+            return Result.success(dao.delete(id));
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_ROLE_FAILURE.get(ex));
+        }
+    }
+
 }

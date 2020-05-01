@@ -54,4 +54,22 @@ public class UserService extends BaseDAOService<UserDAO> {
         return create(name, password, null);
     }
 
+    public Result<Long> update(UUID id, User user) {
+        try {
+            UserDAO dao = getBaseDAO();
+            return Result.success(dao.update(id, user));
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_USER_FAILURE.get(ex));
+        }
+    }
+
+    public Result<Long> delete(UUID id) {
+        try {
+            UserDAO dao = getBaseDAO();
+            return Result.success(dao.delete(id));
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_USER_FAILURE.get(ex));
+        }
+    }
+
 }
