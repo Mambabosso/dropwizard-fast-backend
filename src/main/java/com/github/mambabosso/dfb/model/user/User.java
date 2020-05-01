@@ -34,6 +34,7 @@ public final class User implements Principal, Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password", referencedColumnName = "password_id")
     private Password password;

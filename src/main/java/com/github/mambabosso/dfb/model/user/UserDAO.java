@@ -30,8 +30,6 @@ public class UserDAO extends BaseDAO<User, UUID> {
     public long update(@NonNull UUID id, @NonNull User user) {
         HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
         clause.set(_user.name, user.getName());
-        clause.set(_user.password, user.getPassword());
-        clause.set(_user.roles, user.getRoles());
         clause.set(_user.locked, user.isLocked());
         return clause.execute();
     }
