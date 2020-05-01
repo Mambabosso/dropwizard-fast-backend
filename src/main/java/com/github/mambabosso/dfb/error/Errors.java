@@ -1,40 +1,39 @@
 package com.github.mambabosso.dfb.error;
 
+import com.github.mambabosso.dfb.model.Models;
+
 public final class Errors {
 
     private Errors() {
     }
 
-    public static final ErrorCode UNKNOWN = ErrorCode.create(0);
-    public static final ErrorCode INVALID_INPUT = ErrorCode.create(1);
+    public static Errors newInstance() {
+        return new Errors();
+    }
 
-    // invalid start
-    public static final ErrorCode INVALID_USER = ErrorCode.create(1011);
-    public static final ErrorCode INVALID_USER_NAME = ErrorCode.create(1012);
-    public static final ErrorCode INVALID_USER_PASSWORD = ErrorCode.create(1013);
+    public final ErrorCode UNKNOWN = ErrorCode.create(Models.UNDEFINED, -1);
 
-    public static final ErrorCode INVALID_ROLE = ErrorCode.create(1021);
-    public static final ErrorCode INVALID_ROLE_NAME = ErrorCode.create(1022);
-    // invalid end
+    public final ErrorCode UNKNOWN_PASSWORD_FAILURE = ErrorCode.create(Models.PASSWORD, 1);
+    public final ErrorCode UNKNOWN_ROLE_FAILURE = ErrorCode.create(Models.ROLE, 2);
+    public final ErrorCode UNKNOWN_USER_FAILURE = ErrorCode.create(Models.USER, 3);
 
-    // not found start
-    public static final ErrorCode USER_NOT_FOUND = ErrorCode.create(2011);
+    public final ErrorCode INVALID_PASSWORD = ErrorCode.create(Models.PASSWORD, 100);
+    public final ErrorCode INVALID_ROLE = ErrorCode.create(Models.ROLE, 200);
+    public final ErrorCode INVALID_USER = ErrorCode.create(Models.USER, 300);
 
-    public static final ErrorCode ROLE_NOT_FOUND = ErrorCode.create(2021);
-    // not found end
+    public final ErrorCode PASSWORD_NOT_FOUND = ErrorCode.create(Models.PASSWORD, 101);
+    public final ErrorCode ROLE_NOT_FOUND = ErrorCode.create(Models.ROLE, 201);
+    public final ErrorCode USER_NOT_FOUND = ErrorCode.create(Models.USER, 301);
 
-    // validation fail start
-    public static final ErrorCode USER_NAME_VALIDATION_FAIL = ErrorCode.create(3011);
-    public static final ErrorCode USER_PASSWORD_VALIDATION_FAIL = ErrorCode.create(3012);
+    public final ErrorCode PASSWORD_VALIDATION_FAILURE = ErrorCode.create(Models.PASSWORD, 102);
+    public final ErrorCode ROLE_VALIDATION_FAILURE = ErrorCode.create(Models.ROLE, 202);
+    public final ErrorCode USER_VALIDATION_FAILURE = ErrorCode.create(Models.USER, 302);
 
-    public static final ErrorCode ROLE_NAME_VALIDATION_FAIL = ErrorCode.create(3021);
-    // validation fail end
+    public final ErrorCode PASSWORD_PERSISTENCE_FAILURE = ErrorCode.create(Models.PASSWORD, 103);
+    public final ErrorCode ROLE_PERSISTENCE_FAILURE = ErrorCode.create(Models.ROLE, 203);
+    public final ErrorCode USER_PERSISTENCE_FAILURE = ErrorCode.create(Models.USER, 303);
 
-    // already taken start
-    public static final ErrorCode USER_NAME_ALREADY_TAKEN = ErrorCode.create(4011);
-
-    public static final ErrorCode ROLE_NAME_ALREADY_TAKEN = ErrorCode.create(4021);
-    // already taken end
-
-
+    public final ErrorCode ROLE_ALREADY_EXISTS = ErrorCode.create(Models.ROLE, 204);
+    public final ErrorCode USER_ALREADY_EXISTS = ErrorCode.create(Models.USER, 304);
+    
 }

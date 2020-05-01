@@ -51,10 +51,10 @@ public abstract class BaseDAO<T extends Serializable, PK extends Serializable> e
 
     public abstract PK insert(@NonNull final T value);
 
-    public abstract Optional<T> getById(@NonNull final PK id);
+    public abstract T getById(@NonNull final PK id);
 
-    public abstract boolean update(@NonNull final PK id, @NonNull final T value);
+    public abstract long update(@NonNull final PK id, @NonNull final T value);
 
-    public abstract boolean delete(@NonNull final PK id);
+    public abstract long delete(@NonNull final PK id);
 
 }

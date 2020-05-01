@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.model.user;
 
+import com.github.mambabosso.dfb.model.password.Password;
 import com.github.mambabosso.dfb.model.role.Role;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,9 +33,9 @@ public final class User implements Principal, Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @NotNull
-    @Column(name = "password")
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "password", referencedColumnName = "password_id")
+    private Password password;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))

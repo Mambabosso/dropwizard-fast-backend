@@ -5,7 +5,6 @@ import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class RoleDAOTest {

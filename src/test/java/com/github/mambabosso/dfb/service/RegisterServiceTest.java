@@ -1,7 +1,12 @@
-package com.github.mambabosso.dfb.model.user;
+package com.github.mambabosso.dfb.service;
 
 import com.github.mambabosso.dfb.model.password.Password;
+import com.github.mambabosso.dfb.model.password.PasswordDAO;
+import com.github.mambabosso.dfb.model.password.PasswordService;
 import com.github.mambabosso.dfb.model.role.Role;
+import com.github.mambabosso.dfb.model.user.User;
+import com.github.mambabosso.dfb.model.user.UserDAO;
+import com.github.mambabosso.dfb.model.user.UserService;
 import io.dropwizard.testing.junit5.DAOTestExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.junit.jupiter.api.*;
@@ -9,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
-public class UserDAOTest {
+public class RegisterServiceTest {
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
             .addEntityClass(Password.class)
@@ -17,11 +22,13 @@ public class UserDAOTest {
             .addEntityClass(User.class)
             .build();
 
-    private static UserDAO dao;
+    private static RegisterService service;
 
     @BeforeAll
     public static void init() {
-        dao = new UserDAO(daoTestRule.getSessionFactory());
+        UserService userService = new UserService(new UserDAO(daoTestRule.getSessionFactory()));
+        PasswordService passwordService = new PasswordService(new PasswordDAO(daoTestRule.getSessionFactory()));
+        service = new RegisterService(userService, passwordService);
     }
 
     @AfterAll

@@ -22,21 +22,21 @@ public class RoleDAO extends BaseDAO<Role, UUID> {
     }
 
     @Override
-    public Optional<Role> getById(@NonNull UUID id) {
-        return Optional.ofNullable(query().select(_role).from(_role).where(_role.id.eq(id)).fetchFirst());
+    public Role getById(@NonNull UUID id) {
+        return query().select(_role).from(_role).where(_role.id.eq(id)).fetchFirst();
     }
 
     @Override
-    public boolean update(@NonNull UUID id, @NonNull Role role) {
+    public long update(@NonNull UUID id, @NonNull Role role) {
         HibernateUpdateClause clause = update(_role).where(_role.id.eq(id));
         clause.set(_role.name, role.getName());
         clause.set(_role.locked, role.isLocked());
-        return clause.execute() > 0;
+        return clause.execute();
     }
 
     @Override
-    public boolean delete(@NonNull UUID id) {
-        return delete(_role).where(_role.id.eq(id)).execute() > 0;
+    public long delete(@NonNull UUID id) {
+        return delete(_role).where(_role.id.eq(id)).execute();
     }
 
     public Optional<Role> getRoleByName(@NonNull String name) {

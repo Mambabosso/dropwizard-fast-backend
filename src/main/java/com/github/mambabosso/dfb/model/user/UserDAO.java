@@ -22,23 +22,23 @@ public class UserDAO extends BaseDAO<User, UUID> {
     }
 
     @Override
-    public Optional<User> getById(@NonNull UUID id) {
-        return Optional.ofNullable(query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst());
+    public User getById(@NonNull UUID id) {
+        return query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst();
     }
 
     @Override
-    public boolean update(@NonNull UUID id, @NonNull User user) {
+    public long update(@NonNull UUID id, @NonNull User user) {
         HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
         clause.set(_user.name, user.getName());
         clause.set(_user.password, user.getPassword());
         clause.set(_user.roles, user.getRoles());
         clause.set(_user.locked, user.isLocked());
-        return clause.execute() > 0;
+        return clause.execute();
     }
 
     @Override
-    public boolean delete(@NonNull UUID id) {
-        return delete(_user).where(_user.id.eq(id)).execute() > 0;
+    public long delete(@NonNull UUID id) {
+        return delete(_user).where(_user.id.eq(id)).execute();
     }
 
     public Optional<User> getUserByName(@NonNull String name) {
