@@ -4,6 +4,8 @@ import com.github.mambabosso.dfb.model.password.Password;
 import com.github.mambabosso.dfb.model.password.PasswordDAO;
 import com.github.mambabosso.dfb.model.password.PasswordService;
 import com.github.mambabosso.dfb.model.role.Role;
+import com.github.mambabosso.dfb.model.role.RoleDAO;
+import com.github.mambabosso.dfb.model.role.RoleService;
 import com.github.mambabosso.dfb.model.user.User;
 import com.github.mambabosso.dfb.model.user.UserDAO;
 import com.github.mambabosso.dfb.model.user.UserService;
@@ -26,9 +28,10 @@ public class RegisterServiceTest {
 
     @BeforeAll
     public static void init() {
-        UserService userService = new UserService(new UserDAO(daoTestRule.getSessionFactory()));
         PasswordService passwordService = new PasswordService(new PasswordDAO(daoTestRule.getSessionFactory()));
-        service = new RegisterService(userService, passwordService);
+        RoleService roleService = new RoleService(new RoleDAO(daoTestRule.getSessionFactory()));
+        UserService userService = new UserService(new UserDAO(daoTestRule.getSessionFactory()));
+        service = new RegisterService(passwordService, roleService, userService);
     }
 
     @AfterAll
