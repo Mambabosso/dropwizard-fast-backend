@@ -38,12 +38,12 @@ public class PasswordDAOTest {
             return dao.insert(Password.builder().hash("hash").lastAccess(now).createdAt(now).build());
         });
 
-        Assertions.assertEquals("hash", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getHash();
-        }));
-
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
             return dao.update(id, Password.builder().hash("xxxx").lastAccess(now).build());
+        }));
+
+        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
+            return dao.getById(id).getHash();
         }));
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {

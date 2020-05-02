@@ -5,6 +5,7 @@ import com.querydsl.jpa.hibernate.HibernateUpdateClause;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +23,11 @@ public class UserDAO extends BaseDAO<User, UUID> {
     }
 
     @Override
+    public List<User> all(long offset, long limit) {
+        return query(offset, limit).select(_user).from(_user).fetch();
+    }
+
+    @Override
     public User getById(@NonNull UUID id) {
         return query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst();
     }
@@ -31,7 +37,11 @@ public class UserDAO extends BaseDAO<User, UUID> {
         HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
         clause.set(_user.name, user.getName());
         clause.set(_user.locked, user.isLocked());
-        return clause.execute();
+        long result = clause.execute();
+        if (result > 0) {
+            refresh(getById(id));
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseDAO<T extends Serializable, PK extends Serializable> extends AbstractDAO<T> {
@@ -49,7 +50,23 @@ public abstract class BaseDAO<T extends Serializable, PK extends Serializable> e
         return query(0, 0);
     }
 
+    public void refresh(@NonNull final T value) {
+        session().refresh(value);
+    }
+
+    public void refresh() {
+        for (final T t : all()) {
+            refresh(t);
+        }
+    }
+
     public abstract PK insert(@NonNull final T value);
+
+    public abstract List<T> all(final long offset, final long limit);
+
+    public List<T> all() {
+        return all(0, 0);
+    }
 
     public abstract T getById(@NonNull final PK id);
 

@@ -5,6 +5,7 @@ import com.querydsl.jpa.hibernate.HibernateUpdateClause;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PasswordDAO extends BaseDAO<Password, UUID> {
@@ -21,6 +22,11 @@ public class PasswordDAO extends BaseDAO<Password, UUID> {
     }
 
     @Override
+    public List<Password> all(long offset, long limit) {
+        return query(offset, limit).select(_password).from(_password).fetch();
+    }
+
+    @Override
     public Password getById(@NonNull UUID id) {
         return query().select(_password).from(_password).where(_password.id.eq(id)).fetchFirst();
     }
@@ -31,7 +37,11 @@ public class PasswordDAO extends BaseDAO<Password, UUID> {
         clause.set(_password.hash, password.getHash());
         clause.set(_password.lastAccess, password.getLastAccess());
         clause.set(_password.locked, password.isLocked());
-        return clause.execute();
+        long result = clause.execute();
+        if (result > 0) {
+            refresh(getById(id));
+        }
+        return result;
     }
 
     @Override

@@ -50,12 +50,12 @@ public class UserDAOTest {
             return dao.insert(User.builder().name("user").password(p).createdAt(now).build());
         });
 
-        Assertions.assertEquals("user", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getName();
-        }));
-
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
             return dao.update(id, User.builder().name("xxxx").build());
+        }));
+
+        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
+            return dao.getById(id).getName();
         }));
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {

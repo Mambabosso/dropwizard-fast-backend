@@ -39,12 +39,12 @@ public class RoleDAOTest {
             return dao.insert(Role.builder().name("role").createdAt(now).build());
         });
 
-        Assertions.assertEquals("role", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getName();
-        }));
-
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
             return dao.update(id, Role.builder().name("xxxx").build());
+        }));
+
+        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
+            return dao.getById(id).getName();
         }));
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
