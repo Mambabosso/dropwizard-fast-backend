@@ -1,28 +1,32 @@
 package com.github.mambabosso.dfb.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mambabosso.dfb.error.ErrorCode;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import java.io.Serializable;
 import java.util.Optional;
 
-@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualsAndHashCode
 public final class Result<T> implements Serializable {
 
-    @JsonProperty
     private boolean success;
-
-    @JsonProperty
     private T value;
-
-    @JsonProperty
     private ErrorCode error;
 
     private Result() {
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public T get() {
+        return value;
+    }
+
+    public ErrorCode getError() {
+        return error;
     }
 
     public Optional<T> optional() {
@@ -32,22 +36,24 @@ public final class Result<T> implements Serializable {
         return Optional.empty();
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
+    public <X> Result<X> byError() {
+        if (success) {
+            throw new IllegalStateException();
+        }
+        return Result.failure(error);
     }
 
     public static <T> Result<T> success(@NonNull final T value) {
         Result<T> result = new Result<>();
-        result.setSuccess(true);
-        result.setValue(value);
+        result.success = true;
+        result.value = value;
         return result;
     }
 
     public static <T> Result<T> failure(@NonNull final ErrorCode error) {
         Result<T> result = new Result<>();
-        result.setSuccess(false);
-        result.setError(error);
+        result.success = false;
+        result.error = error;
         return result;
     }
 
