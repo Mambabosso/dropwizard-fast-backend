@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.model.role;
 
+import com.github.mambabosso.dfb.model.Persistable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "role")
-public final class Role implements Serializable {
+public final class Role implements Persistable<UUID> {
 
     @Setter(AccessLevel.NONE)
     @Id
@@ -26,7 +27,7 @@ public final class Role implements Serializable {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^(?![0-9_-])[a-zA-Z0-9_-]{2,30}$", message = "invalid role name")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{4,50}$", message = "invalid role name")
     @Column(name = "name", unique = true)
     private String name;
 

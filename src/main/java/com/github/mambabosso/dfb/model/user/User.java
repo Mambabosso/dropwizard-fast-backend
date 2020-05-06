@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.model.user;
 
+import com.github.mambabosso.dfb.model.Persistable;
 import com.github.mambabosso.dfb.model.password.Password;
 import com.github.mambabosso.dfb.model.role.Role;
 import lombok.*;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "user")
-public final class User implements Principal, Serializable {
+public final class User implements Principal, Persistable<UUID> {
 
     @Setter(AccessLevel.NONE)
     @Id
@@ -30,7 +31,7 @@ public final class User implements Principal, Serializable {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^(?![0-9])[a-zA-Z0-9]{4,30}$", message = "invalid user name")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,50}$", message = "invalid user name")
     @Column(name = "name", unique = true)
     private String name;
 

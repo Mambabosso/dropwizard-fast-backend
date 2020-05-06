@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.model.password;
 
+import com.github.mambabosso.dfb.model.Persistable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "password")
-public final class Password implements Serializable {
+public final class Password implements Persistable<UUID> {
 
     @Setter(AccessLevel.NONE)
     @Id
