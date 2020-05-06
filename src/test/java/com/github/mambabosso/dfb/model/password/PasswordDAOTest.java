@@ -39,11 +39,11 @@ public class PasswordDAOTest {
         });
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.update(id, Password.builder().hash("xxxx").lastAccess(now).build());
+            return dao.update(id, Password.builder().locked(true).lastAccess(now).build());
         }));
 
-        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getHash();
+        Assertions.assertTrue(daoTestRule.inTransaction(() -> {
+            return dao.getById(id).isLocked();
         }));
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {

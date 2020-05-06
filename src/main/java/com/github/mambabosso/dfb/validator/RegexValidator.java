@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class RegexValidator implements Validator<String> {
 
     private final String value;
-    private final Pattern pattern;
+    private final String regex;
 
     @Override
     public String get() {
@@ -20,10 +20,10 @@ public class RegexValidator implements Validator<String> {
 
     @Override
     public boolean isValid() {
-        if (pattern == null) {
-            throw new NullPointerException("pattern");
+        if (regex == null) {
+            throw new NullPointerException("regex");
         }
-        return pattern.matcher(get()).matches();
+        return Pattern.compile(regex).matcher(get()).matches();
     }
 
 }
