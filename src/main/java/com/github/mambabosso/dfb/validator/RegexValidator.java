@@ -1,14 +1,21 @@
 package com.github.mambabosso.dfb.validator;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
-@Data
-public class RegexValidator implements Validator<String> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegexValidator implements Validator<String>, Serializable {
 
-    private final String value;
-    private final String regex;
+    @Getter
+    private String value;
+
+    @Getter
+    private String regex;
 
     @Override
     public String get() {
