@@ -34,7 +34,6 @@ public class PasswordDAO extends BaseDAO<Password, UUID> {
     @Override
     public long update(@NonNull UUID id, @NonNull Password password) {
         HibernateUpdateClause clause = update(_password).where(_password.id.eq(id));
-        clause.set(_password.hash, password.getHash());
         clause.set(_password.lastAccess, password.getLastAccess());
         clause.set(_password.locked, password.isLocked());
         long result = clause.execute();

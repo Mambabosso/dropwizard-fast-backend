@@ -27,7 +27,7 @@ public final class User implements Principal, Persistable<UUID> {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "user_id")
+    @Column(name = "user_id", updatable = false)
     private UUID id;
 
     @NotNull
@@ -45,7 +45,7 @@ public final class User implements Principal, Persistable<UUID> {
     private Set<Role> roles;
 
     @NotNull
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private DateTime createdAt;
 
     @NotNull

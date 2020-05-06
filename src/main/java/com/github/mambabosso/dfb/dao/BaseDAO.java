@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class BaseDAO<T extends Serializable, PK extends Serializable> extends AbstractDAO<T> {
 

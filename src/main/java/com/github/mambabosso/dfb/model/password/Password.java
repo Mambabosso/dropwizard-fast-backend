@@ -22,11 +22,11 @@ public final class Password implements Persistable<UUID> {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "password_id")
+    @Column(name = "password_id", updatable = false)
     private UUID id;
 
     @NotNull
-    @Column(name = "hash")
+    @Column(name = "hash", updatable = false)
     private String hash;
 
     @NotNull
@@ -34,7 +34,7 @@ public final class Password implements Persistable<UUID> {
     private DateTime lastAccess;
 
     @NotNull
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private DateTime createdAt;
 
     @NotNull
