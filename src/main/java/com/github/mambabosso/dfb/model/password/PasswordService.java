@@ -1,7 +1,7 @@
 package com.github.mambabosso.dfb.model.password;
 
+import com.github.mambabosso.dfb.dao.BaseDAOService;
 import com.github.mambabosso.dfb.error.Errors;
-import com.github.mambabosso.dfb.service.BaseDAOService;
 import com.github.mambabosso.dfb.util.Result;
 import com.github.mambabosso.dfb.validator.Validator;
 import org.joda.time.DateTime;
