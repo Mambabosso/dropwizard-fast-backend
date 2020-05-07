@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.dao;
 
+import com.github.mambabosso.dfb.model.Persistable;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.jpa.hibernate.HibernateDeleteClause;
 import com.querydsl.jpa.hibernate.HibernateQuery;
@@ -12,7 +13,7 @@ import org.hibernate.SessionFactory;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class BaseDAO<T extends Serializable, PK extends Serializable> extends AbstractDAO<T> {
+public abstract class BaseDAO<T extends Persistable<PK>, PK extends Serializable> extends AbstractDAO<T> {
 
     protected BaseDAO(final SessionFactory sessionFactory) {
         super(sessionFactory);

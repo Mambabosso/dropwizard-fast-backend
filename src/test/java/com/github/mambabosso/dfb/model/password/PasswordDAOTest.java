@@ -23,11 +23,6 @@ public class PasswordDAOTest {
         dao = new PasswordDAO(daoTestRule.getSessionFactory());
     }
 
-    @AfterAll
-    public static void close() {
-        daoTestRule.after();
-    }
-
     @Test
     @Order(1)
     public void test() {

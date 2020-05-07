@@ -24,11 +24,6 @@ public class RoleDAOTest {
         dao = new RoleDAO(daoTestRule.getSessionFactory());
     }
 
-    @AfterAll
-    public static void close() {
-        daoTestRule.after();
-    }
-
     @Test
     @Order(1)
     public void test() {

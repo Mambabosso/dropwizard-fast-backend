@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.util.UUID;
 
 @Data
@@ -27,7 +26,7 @@ public final class Role implements Persistable<UUID> {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9_-]{4,50}$", message = "invalid role name")
+    @Pattern(regexp = "^.{1,50}$", message = "invalid role name")
     @Column(name = "name", unique = true)
     private String name;
 

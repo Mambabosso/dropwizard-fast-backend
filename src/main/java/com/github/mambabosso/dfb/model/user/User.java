@@ -10,7 +10,6 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.security.Principal;
 import java.util.Set;
 import java.util.UUID;
@@ -31,7 +30,7 @@ public final class User implements Principal, Persistable<UUID> {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,50}$", message = "invalid user name")
+    @Pattern(regexp = "^.{1,50}$", message = "invalid user name")
     @Column(name = "name", unique = true)
     private String name;
 

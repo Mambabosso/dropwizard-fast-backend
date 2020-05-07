@@ -30,11 +30,6 @@ public class UserDAOTest {
         dao = new UserDAO(daoTestRule.getSessionFactory());
     }
 
-    @AfterAll
-    public static void close() {
-        daoTestRule.after();
-    }
-
     @Test
     @Order(1)
     public void test() {
