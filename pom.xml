@@ -14,9 +14,11 @@
     <url>https://github.com/Mambabosso/dropwizard-fast-backend</url>
 
     <properties>
-        <dropwizard.version>2.0.8</dropwizard.version>
+        <dropwizard.version>2.0.9</dropwizard.version>
         <querydsl.version>4.3.1</querydsl.version>
         <jbcrypt.version>0.4</jbcrypt.version>
+        <auth0.java-jwt.version>3.10.3</auth0.java-jwt.version>
+        <jackson.version>2.11.0</jackson.version>
         <lombok.version>1.18.12</lombok.version>
         <maven-compiler>8</maven-compiler>
     </properties>
@@ -50,10 +52,6 @@
             <artifactId>dropwizard-auth</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-jackson</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -70,6 +68,19 @@
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>${jbcrypt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${auth0.java-jwt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

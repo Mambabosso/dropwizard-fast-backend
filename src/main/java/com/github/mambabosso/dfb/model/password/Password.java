@@ -1,5 +1,6 @@
 package com.github.mambabosso.dfb.model.password;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.mambabosso.dfb.model.Persistable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Table(name = "password")
 public final class Password implements Persistable<UUID> {
 
+    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -28,14 +30,17 @@ public final class Password implements Persistable<UUID> {
     @Column(name = "hash", updatable = false)
     private String hash;
 
+    @JsonIgnore
     @NotNull
     @Column(name = "last_access")
     private DateTime lastAccess;
 
+    @JsonIgnore
     @NotNull
     @Column(name = "created_at", updatable = false)
     private DateTime createdAt;
 
+    @JsonIgnore
     @NotNull
     @Column(name = "locked")
     private boolean locked;
