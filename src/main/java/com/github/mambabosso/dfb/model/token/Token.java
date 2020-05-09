@@ -29,9 +29,11 @@ public final class Token implements Persistable<UUID> {
     private String value;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", updatable = false)
-    private String type;
+    private TokenTypes type;
 
+    @NotNull
     @Column(name = "expires_at", updatable = false)
     private DateTime expiresAt;
 

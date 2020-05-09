@@ -16,18 +16,16 @@ public class TokenService extends BaseDAOService<TokenDAO> {
         super(baseDAO);
     }
 
-    public Result<Token> create(Validator<String> value, Validator<String> type, Validator<DateTime> expiresAt) {
+    public Result<Token> create(Validator<String> value, Validator<TokenTypes> type, Validator<DateTime> expiresAt) {
         try {
             TokenDAO dao = getBaseDAO();
-            if (value == null || !value.isValid() || type == null || !type.isValid() || (expiresAt != null && !expiresAt.isValid())) {
+            if (value == null || !value.isValid() || type == null || !type.isValid() || !expiresAt.isValid()) {
                 return Result.failure(Errors.TOKEN_VALIDATION_FAILURE.get());
             }
             Token token = new Token();
             token.setValue(value.get());
             token.setType(type.get());
-            if (expiresAt != null) {
-                token.setExpiresAt(expiresAt.get());
-            }
+            token.setExpiresAt(expiresAt.get());
             token.setLastAccess(DateTime.now());
             token.setCreatedAt(token.getLastAccess());
             UUID id = dao.insert(token);
@@ -42,10 +40,6 @@ public class TokenService extends BaseDAOService<TokenDAO> {
         } catch (Exception ex) {
             return Result.failure(Errors.UNKNOWN_TOKEN_FAILURE.get(ex));
         }
-    }
-
-    public Result<Token> create(Validator<String> value, Validator<String> type) {
-        return create(value, type, null);
     }
 
     public Result<Long> update(UUID id, Token token) {
