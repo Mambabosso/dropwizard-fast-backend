@@ -42,6 +42,15 @@ public class TokenService extends BaseDAOService<TokenDAO> {
         }
     }
 
+    public Result<Token> getByValue(String value) {
+        try {
+            TokenDAO dao = getBaseDAO();
+            return Result.success(dao.getByValue(value));
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_TOKEN_FAILURE.get(ex));
+        }
+    }
+
     public Result<Long> update(UUID id, Token token) {
         try {
             TokenDAO dao = getBaseDAO();

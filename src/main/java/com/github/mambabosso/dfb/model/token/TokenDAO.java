@@ -31,6 +31,10 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
         return query().select(_token).from(_token).where(_token.id.eq(id)).fetchFirst();
     }
 
+    public Token getByValue(@NonNull String value) {
+        return query().select(_token).from(_token).where(_token.value.eq(value)).fetchFirst();
+    }
+
     @Override
     public long update(@NonNull UUID id, @NonNull Token token) {
         HibernateUpdateClause clause = update(_token).where(_token.id.eq(id));
