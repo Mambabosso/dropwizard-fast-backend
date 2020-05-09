@@ -1,6 +1,7 @@
 package com.github.mambabosso.dfb.model.token;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.mambabosso.dfb.model.Expireable;
 import com.github.mambabosso.dfb.model.Persistable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "token")
-public final class Token implements Persistable<UUID> {
+public final class Token implements Persistable<UUID>, Expireable {
 
     @JsonIgnore
     @Setter(AccessLevel.NONE)
@@ -35,7 +36,6 @@ public final class Token implements Persistable<UUID> {
     @Column(name = "type", updatable = false)
     private TokenTypes type;
 
-    @JsonIgnore
     @NotNull
     @Column(name = "expires_at", updatable = false)
     private DateTime expiresAt;
