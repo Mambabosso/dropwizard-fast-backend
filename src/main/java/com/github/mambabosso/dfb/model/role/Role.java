@@ -1,6 +1,5 @@
 package com.github.mambabosso.dfb.model.role;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.mambabosso.dfb.model.Persistable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +18,6 @@ import java.util.UUID;
 @Table(name = "role")
 public final class Role implements Persistable<UUID> {
 
-    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -32,12 +30,10 @@ public final class Role implements Persistable<UUID> {
     @Column(name = "name", unique = true)
     private String name;
 
-    @JsonIgnore
     @NotNull
     @Column(name = "created_at", updatable = false)
     private DateTime createdAt;
 
-    @JsonIgnore
     @NotNull
     @Column(name = "locked")
     private boolean locked;

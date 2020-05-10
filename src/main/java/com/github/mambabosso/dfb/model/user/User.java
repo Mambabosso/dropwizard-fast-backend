@@ -1,6 +1,5 @@
 package com.github.mambabosso.dfb.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.mambabosso.dfb.model.Persistable;
 import com.github.mambabosso.dfb.model.password.Password;
 import com.github.mambabosso.dfb.model.role.Role;
@@ -23,7 +22,6 @@ import java.util.UUID;
 @Table(name = "user")
 public final class User implements Principal, Persistable<UUID> {
 
-    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -36,7 +34,6 @@ public final class User implements Principal, Persistable<UUID> {
     @Column(name = "name", unique = true)
     private String name;
 
-    @JsonIgnore
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password", referencedColumnName = "password_id")
@@ -46,12 +43,10 @@ public final class User implements Principal, Persistable<UUID> {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<Role> roles;
 
-    @JsonIgnore
     @NotNull
     @Column(name = "created_at", updatable = false)
     private DateTime createdAt;
 
-    @JsonIgnore
     @NotNull
     @Column(name = "locked")
     private boolean locked;

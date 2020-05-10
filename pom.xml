@@ -18,7 +18,6 @@
         <querydsl.version>4.3.1</querydsl.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <auth0.java-jwt.version>3.10.3</auth0.java-jwt.version>
-        <jackson.version>2.11.0</jackson.version>
         <lombok.version>1.18.12</lombok.version>
         <maven-compiler>8</maven-compiler>
     </properties>
@@ -74,13 +73,6 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>${auth0.java-jwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
