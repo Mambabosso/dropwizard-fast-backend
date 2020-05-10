@@ -21,7 +21,7 @@ public class DefaultEncoder implements Encoder<User> {
 
     private final Algorithm algorithm;
 
-    private Map<String, Object> userToMap(@NonNull User user) {
+    private Map<String, Object> userToMap(@NonNull final User user) {
         Map<String, Object> result = new HashMap<>();
         result.put("name", user.getName());
         result.put("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
@@ -29,7 +29,7 @@ public class DefaultEncoder implements Encoder<User> {
     }
 
     @Override
-    public Result<String> encode(User user) {
+    public Result<String> encode(final User user) {
         try {
             DateTime now = DateTime.now();
             DateTime expiresAt = now.plus(Duration.standardMinutes(10));

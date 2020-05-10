@@ -9,6 +9,7 @@ import com.github.mambabosso.dfb.model.role.Role;
 import com.github.mambabosso.dfb.model.user.User;
 import com.github.mambabosso.dfb.util.CollectionUtils;
 import com.github.mambabosso.dfb.util.Result;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
@@ -18,17 +19,17 @@ public class DefaultDecoder implements Decoder<User> {
 
     private final Algorithm algorithm;
 
-    private User mapToUser(Map<String, Object> map) {
+    private User mapToUser(@NonNull final Map<String, Object> map) {
         User result = new User();
         result.setName(map.get("name").toString());
-        result.setRoles(CollectionUtils.streamToSet(CollectionUtils.objectToList(map.get("roles")).stream(), (name) -> {
-            return Role.builder().name(name.toString()).build();
+        result.setRoles(CollectionUtils.streamToSet(CollectionUtils.objectToList(map.get("roles")).stream(), (n) -> {
+            return Role.builder().name(n.toString()).build();
         }));
         return result;
     }
 
     @Override
-    public Result<User> decode(String token) {
+    public Result<User> decode(final String token) {
         try {
             Verification verification = JWT.require(algorithm);
             verification.withIssuer("dfb");

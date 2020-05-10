@@ -6,6 +6,6 @@ import java.security.Principal;
 
 public interface Decoder<T extends Principal> {
 
-    public Result<T> decode(String token);
+    public Result<T> decode(final String token);
 
 }
