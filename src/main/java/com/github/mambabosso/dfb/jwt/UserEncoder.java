@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class DefaultEncoder implements Encoder<User> {
+public class UserEncoder implements Encoder<User> {
 
     private final Algorithm algorithm;
 

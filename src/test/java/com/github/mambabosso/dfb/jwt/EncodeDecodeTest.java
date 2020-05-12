@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EncodeDecodeTest {
 
-    private static final DefaultEncoder encoder = new DefaultEncoder(Algorithm.HMAC256("test"));
-    private static final DefaultDecoder decoder = new DefaultDecoder(Algorithm.HMAC256("test"));
+    private static final UserEncoder encoder = new UserEncoder(Algorithm.HMAC256("test"));
+    private static final UserDecoder decoder = new UserDecoder(Algorithm.HMAC256("test"));
 
     @Test
     public void test() {
