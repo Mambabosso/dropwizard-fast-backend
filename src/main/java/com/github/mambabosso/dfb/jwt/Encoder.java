@@ -6,6 +6,6 @@ import java.security.Principal;
 
 public interface Encoder<T extends Principal> {
 
-    public Result<String> encode(final T principal);
+    public Result<String> encode(final T principal, final String tokenId);
 
 }

@@ -2,7 +2,11 @@ package com.github.mambabosso.dfb.model.token;
 
 public enum TokenTypes {
 
-    JWT("jwt"), JWT_ID("jwt_id"), SESSION("session"), SESSION_ID("session_id"), ID("id"), CUSTOM("custom");
+    JWT("jwt"), JWT_ID("jwt_id"),
+    SESSION("session"), SESSION_ID("session_id"),
+    REFRESH("refresh"), ACCESS("access"),
+    ID("id"),
+    CUSTOM("custom");
 
     private final String tokenType;
 
