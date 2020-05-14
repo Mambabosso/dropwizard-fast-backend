@@ -50,14 +50,18 @@ public abstract class BaseDAO<T extends Persistable<PK>, PK extends Serializable
         return query(0, 0);
     }
 
-    public void refresh(@NonNull final T value) {
+    protected void refresh(@NonNull final T value) {
         session().refresh(value);
     }
 
-    public void refresh() {
+    protected void refresh() {
         for (final T t : all()) {
             refresh(t);
         }
+    }
+
+    protected void evict(@NonNull final T value) {
+        session().evict(value);
     }
 
     public abstract PK insert(@NonNull final T value);

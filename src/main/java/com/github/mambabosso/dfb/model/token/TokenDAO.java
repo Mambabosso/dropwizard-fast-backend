@@ -46,7 +46,11 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
 
     @Override
     public long delete(@NonNull UUID id) {
-        return delete(_token).where(_token.id.eq(id)).execute();
+        long result = delete(_token).where(_token.id.eq(id)).execute();
+        if (result > 0) {
+            evict(getById(id));
+        }
+        return result;
     }
 
 }

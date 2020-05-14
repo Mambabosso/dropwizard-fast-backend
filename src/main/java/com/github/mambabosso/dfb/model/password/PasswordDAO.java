@@ -42,7 +42,11 @@ public class PasswordDAO extends BaseDAO<Password, UUID> {
 
     @Override
     public long delete(@NonNull UUID id) {
-        return delete(_password).where(_password.id.eq(id)).execute();
+        long result = delete(_password).where(_password.id.eq(id)).execute();
+        if (result > 0) {
+            evict(getById(id));
+        }
+        return result;
     }
 
 }

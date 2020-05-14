@@ -92,6 +92,8 @@ public class PasswordDAOTest {
 
         assertEquals(1, result);
 
+        assertNull(daoTestRule.inTransaction(() -> dao.getById(id2)));
+
         assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
 
     }

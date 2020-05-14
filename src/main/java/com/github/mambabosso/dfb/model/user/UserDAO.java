@@ -43,7 +43,11 @@ public class UserDAO extends BaseDAO<User, UUID> {
 
     @Override
     public long delete(@NonNull UUID id) {
-        return delete(_user).where(_user.id.eq(id)).execute();
+        long result = delete(_user).where(_user.id.eq(id)).execute();
+        if (result > 0) {
+            evict(getById(id));
+        }
+        return result;
     }
 
     public Optional<User> getUserByName(@NonNull String name) {
