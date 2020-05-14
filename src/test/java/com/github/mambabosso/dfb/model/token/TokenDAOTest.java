@@ -9,15 +9,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class TokenDAOTest {
+
+    private static final DateTime now = DateTime.now();
+    private static final DateTime expiresAt = now.plus(Duration.standardDays(10));
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
             .addEntityClass(Token.class)
             .build();
 
     private static TokenDAO dao;
+
+    private static UUID id1;
+    private static UUID id2;
 
     @BeforeAll
     public static void init() {
@@ -26,29 +34,67 @@ public class TokenDAOTest {
 
     @Test
     @Order(1)
-    public void test() {
+    void insert() {
 
-        DateTime now = DateTime.now();
-
-        UUID id = daoTestRule.inTransaction(() -> {
-            return dao.insert(Token.builder().value("token").type(TokenType.JWT).expiresAt(now).lastAccess(now).createdAt(now).build());
+        id1 = daoTestRule.inTransaction(() -> {
+            return dao.insert(Token.builder().value("token1").type(TokenType.CUSTOM).expiresAt(expiresAt).lastAccess(now).createdAt(now).build());
         });
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.update(id, Token.builder().lastAccess(now.plus(Duration.standardDays(2))).build());
-        }));
+        assertNotNull(id1);
 
-        Assertions.assertEquals(now.plus(Duration.standardDays(2)), daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getLastAccess();
-        }));
+        id2 = daoTestRule.inTransaction(() -> {
+            return dao.insert(Token.builder().value("token2").type(TokenType.CUSTOM).expiresAt(expiresAt).lastAccess(now).createdAt(now).build());
+        });
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.delete(id);
-        }));
+        assertNotNull(id2);
 
-        Assertions.assertNull(daoTestRule.inTransaction(() -> {
-            return dao.getById(id);
-        }));
+    }
+
+    @Test
+    @Order(2)
+    void all() {
+
+        assertEquals(2, daoTestRule.inTransaction(() -> dao.all().size()));
+
+    }
+
+    @Test
+    @Order(3)
+    void getById() {
+
+        assertEquals("token1", daoTestRule.inTransaction(() -> dao.getById(id1).getValue()));
+
+        assertEquals("token2", daoTestRule.inTransaction(() -> dao.getById(id2).getValue()));
+
+    }
+
+    @Test
+    @Order(4)
+    void update() {
+
+        assertFalse(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.update(id1, Token.builder().locked(true).build());
+        });
+
+        assertEquals(1, result);
+
+        assertTrue(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+    }
+
+    @Test
+    @Order(5)
+    void delete() {
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.delete(id2);
+        });
+
+        assertEquals(1, result);
+
+        assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
 
     }
 

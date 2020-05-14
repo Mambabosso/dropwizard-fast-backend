@@ -8,15 +8,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class RoleDAOTest {
+
+    private static final DateTime now = DateTime.now();
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
             .addEntityClass(Role.class)
             .build();
 
     private static RoleDAO dao;
+
+    private static UUID id1;
+    private static UUID id2;
 
     @BeforeAll
     public static void init() {
@@ -25,29 +32,67 @@ public class RoleDAOTest {
 
     @Test
     @Order(1)
-    public void test() {
+    void insert() {
 
-        DateTime now = DateTime.now();
-
-        UUID id = daoTestRule.inTransaction(() -> {
-            return dao.insert(Role.builder().name("role").createdAt(now).build());
+        id1 = daoTestRule.inTransaction(() -> {
+            return dao.insert(Role.builder().name("role1").createdAt(now).build());
         });
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.update(id, Role.builder().name("xxxx").build());
-        }));
+        assertNotNull(id1);
 
-        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getName();
-        }));
+        id2 = daoTestRule.inTransaction(() -> {
+            return dao.insert(Role.builder().name("role2").createdAt(now).build());
+        });
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.delete(id);
-        }));
+        assertNotNull(id2);
 
-        Assertions.assertNull(daoTestRule.inTransaction(() -> {
-            return dao.getById(id);
-        }));
+    }
+
+    @Test
+    @Order(2)
+    void all() {
+
+        assertEquals(2, daoTestRule.inTransaction(() -> dao.all().size()));
+
+    }
+
+    @Test
+    @Order(3)
+    void getById() {
+
+        assertEquals("role1", daoTestRule.inTransaction(() -> dao.getById(id1).getName()));
+
+        assertEquals("role2", daoTestRule.inTransaction(() -> dao.getById(id2).getName()));
+
+    }
+
+    @Test
+    @Order(4)
+    void update() {
+
+        assertFalse(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.update(id1, Role.builder().locked(true).build());
+        });
+
+        assertEquals(1, result);
+
+        assertTrue(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+    }
+
+    @Test
+    @Order(5)
+    void delete() {
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.delete(id2);
+        });
+
+        assertEquals(1, result);
+
+        assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
 
     }
 

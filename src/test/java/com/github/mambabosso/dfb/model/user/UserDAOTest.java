@@ -1,7 +1,6 @@
 package com.github.mambabosso.dfb.model.user;
 
 import com.github.mambabosso.dfb.model.password.Password;
-import com.github.mambabosso.dfb.model.password.PasswordDAO;
 import com.github.mambabosso.dfb.model.role.Role;
 import io.dropwizard.testing.junit5.DAOTestExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
@@ -11,9 +10,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class UserDAOTest {
+
+    private static final DateTime now = DateTime.now();
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
             .addEntityClass(Password.class)
@@ -21,45 +24,81 @@ public class UserDAOTest {
             .addEntityClass(User.class)
             .build();
 
-    private static PasswordDAO passwordDAO;
     private static UserDAO dao;
+
+    private static UUID id1;
+    private static UUID id2;
 
     @BeforeAll
     public static void init() {
-        passwordDAO = new PasswordDAO(daoTestRule.getSessionFactory());
         dao = new UserDAO(daoTestRule.getSessionFactory());
     }
 
     @Test
     @Order(1)
-    public void test() {
+    void insert() {
 
-        DateTime now = DateTime.now();
+        Password p = Password.builder().hash("hash1").lastAccess(now).createdAt(now).build();
 
-        Password p = daoTestRule.inTransaction(() -> {
-            UUID id = passwordDAO.insert(Password.builder().hash("hash").lastAccess(now).createdAt(now).build());
-            return passwordDAO.getById(id);
+        id1 = daoTestRule.inTransaction(() -> {
+            return dao.insert(User.builder().name("user1").password(p).createdAt(now).build());
         });
 
-        UUID id = daoTestRule.inTransaction(() -> {
-            return dao.insert(User.builder().name("user").password(p).createdAt(now).build());
+        assertNotNull(id1);
+
+        id2 = daoTestRule.inTransaction(() -> {
+            return dao.insert(User.builder().name("user2").password(p).createdAt(now).build());
         });
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.update(id, User.builder().name("xxxx").build());
-        }));
+        assertNotNull(id2);
 
-        Assertions.assertEquals("xxxx", daoTestRule.inTransaction(() -> {
-            return dao.getById(id).getName();
-        }));
+    }
 
-        Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
-            return dao.delete(id);
-        }));
+    @Test
+    @Order(2)
+    void all() {
 
-        Assertions.assertNull(daoTestRule.inTransaction(() -> {
-            return dao.getById(id);
-        }));
+        assertEquals(2, daoTestRule.inTransaction(() -> dao.all().size()));
+
+    }
+
+    @Test
+    @Order(3)
+    void getById() {
+
+        assertEquals("user1", daoTestRule.inTransaction(() -> dao.getById(id1).getName()));
+
+        assertEquals("user2", daoTestRule.inTransaction(() -> dao.getById(id2).getName()));
+
+    }
+
+    @Test
+    @Order(4)
+    void update() {
+
+        assertFalse(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.update(id1, User.builder().locked(true).build());
+        });
+
+        assertEquals(1, result);
+
+        assertTrue(daoTestRule.inTransaction(() -> dao.getById(id1).isLocked()));
+
+    }
+
+    @Test
+    @Order(5)
+    void delete() {
+
+        long result = daoTestRule.inTransaction(() -> {
+            return dao.delete(id2);
+        });
+
+        assertEquals(1, result);
+
+        assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
 
     }
 
