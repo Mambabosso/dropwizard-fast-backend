@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.UUID;
 
+import static com.github.mambabosso.dfb.util.ConditionUtils.*;
+
 public class TokenDAO extends BaseDAO<Token, UUID> {
 
     private final QToken _token = QToken.token;
@@ -26,11 +28,6 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
         return query(offset, limit).select(_token).from(_token).fetch();
     }
 
-    @Override
-    public Token getById(@NonNull UUID id) {
-        return query().select(_token).from(_token).where(_token.id.eq(id)).fetchFirst();
-    }
-
     public Token getByValue(@NonNull String value) {
         return query().select(_token).from(_token).where(_token.value.eq(value)).fetchFirst();
     }
@@ -38,8 +35,8 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
     @Override
     public long update(@NonNull UUID id, @NonNull Token token) {
         HibernateUpdateClause clause = update(_token).where(_token.id.eq(id));
-        clause.set(_token.lastAccess, token.getLastAccess());
-        clause.set(_token.locked, token.isLocked());
+        ifNotNull(token.getLastAccess(), (x) -> clause.set(_token.lastAccess, x));
+        ifNotNull(token.isLocked(), (x) -> clause.set(_token.locked, x));
         long result = clause.execute();
         if (result > 0) {
             refresh(getById(id));

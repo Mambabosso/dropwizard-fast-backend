@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.UUID;
 
+import static com.github.mambabosso.dfb.util.ConditionUtils.*;
+
 public class PasswordDAO extends BaseDAO<Password, UUID> {
 
     private final QPassword _password = QPassword.password;
@@ -27,15 +29,10 @@ public class PasswordDAO extends BaseDAO<Password, UUID> {
     }
 
     @Override
-    public Password getById(@NonNull UUID id) {
-        return query().select(_password).from(_password).where(_password.id.eq(id)).fetchFirst();
-    }
-
-    @Override
     public long update(@NonNull UUID id, @NonNull Password password) {
         HibernateUpdateClause clause = update(_password).where(_password.id.eq(id));
-        clause.set(_password.lastAccess, password.getLastAccess());
-        clause.set(_password.locked, password.isLocked());
+        ifNotNull(password.getLastAccess(), (x) -> clause.set(_password.lastAccess, x));
+        ifNotNull(password.isLocked(), (x) -> clause.set(_password.locked, x));
         long result = clause.execute();
         if (result > 0) {
             refresh(getById(id));

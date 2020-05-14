@@ -43,10 +43,10 @@ public final class Result<T> implements Serializable {
         return Result.failure(error);
     }
 
-    public static <T> Result<T> success(@NonNull final T value) {
+    public static <T> Result<T> success(@NonNull final T resultValue) {
         Result<T> result = new Result<>();
         result.success = true;
-        result.value = value;
+        result.value = resultValue;
         return result;
     }
 

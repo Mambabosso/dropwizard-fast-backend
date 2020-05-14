@@ -50,11 +50,11 @@ public abstract class BaseDAO<T extends Persistable<PK>, PK extends Serializable
         return query(0, 0);
     }
 
-    protected void refresh(@NonNull final T value) {
+    public void refresh(@NonNull final T value) {
         session().refresh(value);
     }
 
-    protected void refresh() {
+    public void refresh() {
         for (final T t : all()) {
             refresh(t);
         }
@@ -68,7 +68,9 @@ public abstract class BaseDAO<T extends Persistable<PK>, PK extends Serializable
         return all(0, 0);
     }
 
-    public abstract T getById(@NonNull final PK id);
+    public T getById(@NonNull final PK id) {
+        return get(id);
+    }
 
     public abstract long update(@NonNull final PK id, @NonNull final T value);
 

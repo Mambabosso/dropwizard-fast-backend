@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.github.mambabosso.dfb.util.ConditionUtils.*;
+
 public class RoleDAO extends BaseDAO<Role, UUID> {
 
     private final QRole _role = QRole.role;
@@ -28,15 +30,10 @@ public class RoleDAO extends BaseDAO<Role, UUID> {
     }
 
     @Override
-    public Role getById(@NonNull UUID id) {
-        return query().select(_role).from(_role).where(_role.id.eq(id)).fetchFirst();
-    }
-
-    @Override
     public long update(@NonNull UUID id, @NonNull Role role) {
         HibernateUpdateClause clause = update(_role).where(_role.id.eq(id));
-        clause.set(_role.name, role.getName());
-        clause.set(_role.locked, role.isLocked());
+        ifNotNull(role.getName(), (x) -> clause.set(_role.name, x));
+        ifNotNull(role.isLocked(), (x) -> clause.set(_role.locked, x));
         long result = clause.execute();
         if (result > 0) {
             refresh(getById(id));

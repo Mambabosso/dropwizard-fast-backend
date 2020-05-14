@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.github.mambabosso.dfb.util.ConditionUtils.*;
+
 public class UserDAO extends BaseDAO<User, UUID> {
 
     private final QUser _user = QUser.user;
@@ -28,15 +30,10 @@ public class UserDAO extends BaseDAO<User, UUID> {
     }
 
     @Override
-    public User getById(@NonNull UUID id) {
-        return query().select(_user).from(_user).where(_user.id.eq(id)).fetchFirst();
-    }
-
-    @Override
     public long update(@NonNull UUID id, @NonNull User user) {
         HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
-        clause.set(_user.name, user.getName());
-        clause.set(_user.locked, user.isLocked());
+        ifNotNull(user.getName(), (x) -> clause.set(_user.name, x));
+        ifNotNull(user.isLocked(), (x) -> clause.set(_user.locked, x));
         long result = clause.execute();
         if (result > 0) {
             refresh(getById(id));
