@@ -32,7 +32,7 @@ public final class Token implements Persistable<UUID>, Expireable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", updatable = false)
-    private TokenTypes type;
+    private TokenType type;
 
     @NotNull
     @Column(name = "expires_at", updatable = false)

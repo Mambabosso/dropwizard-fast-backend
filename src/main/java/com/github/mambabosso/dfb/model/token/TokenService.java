@@ -16,7 +16,7 @@ public class TokenService extends BaseDAOService<TokenDAO> {
         super(baseDAO);
     }
 
-    public Result<Token> create(Validator<String> value, Validator<TokenTypes> type, Validator<DateTime> expiresAt) {
+    public Result<Token> create(Validator<String> value, Validator<TokenType> type, Validator<DateTime> expiresAt) {
         try {
             TokenDAO dao = getBaseDAO();
             if (value == null || !value.isValid() || type == null || !type.isValid() || !expiresAt.isValid()) {

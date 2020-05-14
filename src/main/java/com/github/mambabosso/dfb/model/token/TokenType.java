@@ -1,6 +1,6 @@
 package com.github.mambabosso.dfb.model.token;
 
-public enum TokenTypes {
+public enum TokenType {
 
     JWT("jwt"), JWT_ID("jwt_id"),
     SESSION("session"), SESSION_ID("session_id"),
@@ -10,7 +10,7 @@ public enum TokenTypes {
 
     private final String tokenType;
 
-    private TokenTypes(final String tokenType) {
+    private TokenType(final String tokenType) {
         this.tokenType = tokenType;
     }
 

@@ -31,7 +31,7 @@ public class TokenDAOTest {
         DateTime now = DateTime.now();
 
         UUID id = daoTestRule.inTransaction(() -> {
-            return dao.insert(Token.builder().value("token").type(TokenTypes.JWT).expiresAt(now).lastAccess(now).createdAt(now).build());
+            return dao.insert(Token.builder().value("token").type(TokenType.JWT).expiresAt(now).lastAccess(now).createdAt(now).build());
         });
 
         Assertions.assertEquals(1, daoTestRule.inTransaction(() -> {
