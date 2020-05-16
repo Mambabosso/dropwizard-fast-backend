@@ -24,7 +24,11 @@ public abstract class BaseDAO<T extends Persistable<PK>, PK extends Serializable
     }
 
     protected Serializable save(@NonNull final T value) {
-        return session().save(value);
+        Serializable id = session().save(value);
+        if (id != null) {
+            session().persist(get(id));
+        }
+        return id;
     }
 
     protected HibernateUpdateClause update(@NonNull final EntityPath<T> entityPath) {

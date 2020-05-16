@@ -44,7 +44,11 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
     public Result<Password> get(UUID id) {
         try {
             PasswordDAO dao = getBaseDAO();
-            return Result.success(dao.getById(id));
+            Password password = dao.getById(id);
+            if (password != null) {
+                return Result.success(password);
+            }
+            return Result.failure(Errors.PASSWORD_NOT_FOUND.get());
         } catch (Exception ex) {
             return Result.failure(Errors.UNKNOWN_PASSWORD_FAILURE.get(ex));
         }

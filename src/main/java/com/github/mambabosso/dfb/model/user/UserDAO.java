@@ -29,6 +29,14 @@ public class UserDAO extends BaseDAO<User, UUID> {
         return query(offset, limit).select(_user).from(_user).fetch();
     }
 
+    public User getByName(@NonNull String name) {
+        return query().select(_user).from(_user).where(_user.name.eq(name)).fetchFirst();
+    }
+
+    public boolean nameExists(@NonNull String name) {
+        return query().select(_user.id).from(_user).where(_user.name.eq(name)).fetchFirst() != null;
+    }
+
     @Override
     public long update(@NonNull UUID id, @NonNull User user) {
         HibernateUpdateClause clause = update(_user).where(_user.id.eq(id));
@@ -48,10 +56,6 @@ public class UserDAO extends BaseDAO<User, UUID> {
             evict(getById(id));
         }
         return result;
-    }
-
-    public Optional<User> getUserByName(@NonNull String name) {
-        return Optional.ofNullable(query().select(_user).from(_user).where(_user.name.eq(name)).fetchFirst());
     }
 
 }

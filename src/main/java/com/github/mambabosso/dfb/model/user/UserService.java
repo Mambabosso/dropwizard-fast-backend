@@ -26,7 +26,7 @@ public class UserService extends BaseDAOService<UserDAO> {
                 return Result.failure(Errors.USER_VALIDATION_FAILURE.get());
             }
             String userName = name.get();
-            if (dao.getUserByName(userName).isPresent()) {
+            if (dao.nameExists(userName)) {
                 return Result.failure(Errors.USER_ALREADY_EXISTS.get());
             }
             User user = new User();
@@ -57,7 +57,24 @@ public class UserService extends BaseDAOService<UserDAO> {
     public Result<User> get(UUID id) {
         try {
             UserDAO dao = getBaseDAO();
-            return Result.success(dao.getById(id));
+            User user = dao.getById(id);
+            if (user != null) {
+                return Result.success(user);
+            }
+            return Result.failure(Errors.USER_NOT_FOUND.get());
+        } catch (Exception ex) {
+            return Result.failure(Errors.UNKNOWN_USER_FAILURE.get(ex));
+        }
+    }
+
+    public Result<User> getByName(String name) {
+        try {
+            UserDAO dao = getBaseDAO();
+            User user = dao.getByName(name);
+            if (user != null) {
+                return Result.success(user);
+            }
+            return Result.failure(Errors.USER_NOT_FOUND.get());
         } catch (Exception ex) {
             return Result.failure(Errors.UNKNOWN_USER_FAILURE.get(ex));
         }
