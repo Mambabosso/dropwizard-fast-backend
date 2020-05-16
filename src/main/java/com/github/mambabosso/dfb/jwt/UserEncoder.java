@@ -14,6 +14,7 @@ import org.joda.time.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -24,7 +25,12 @@ public class UserEncoder implements Encoder<User> {
     private Map<String, Object> userToMap(@NonNull final User user) {
         Map<String, Object> result = new HashMap<>();
         result.put("name", user.getName());
-        result.put("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+        result.put("createdAt", user.getCreatedAt().toDate());
+        result.put("locked", user.isLocked());
+        Set<Role> roles = user.getRoles();
+        if (roles != null) {
+            result.put("roles", roles.stream().map(Role::getName).collect(Collectors.toList()));
+        }
         return result;
     }
 
