@@ -51,6 +51,10 @@ public final class User implements Principal, Persistable<UUID> {
     @Column(name = "locked")
     private boolean locked;
 
+    public User(final String name) {
+        this.name = name;
+    }
+
     @Override
     public String getName() {
         return name;

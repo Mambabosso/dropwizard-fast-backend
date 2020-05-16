@@ -38,4 +38,8 @@ public final class Role implements Persistable<UUID> {
     @Column(name = "locked")
     private boolean locked;
 
+    public Role(final String name) {
+        this.name = name;
+    }
+
 }

@@ -50,4 +50,8 @@ public final class Token implements Persistable<UUID>, Expireable {
     @Column(name = "locked")
     private boolean locked;
 
+    public Token(final String value) {
+        this.value = value;
+    }
+
 }
