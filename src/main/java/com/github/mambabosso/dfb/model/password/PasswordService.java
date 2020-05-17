@@ -63,6 +63,10 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
         }
     }
 
+    public Result<Long> lockPassword(UUID id) {
+        return update(id, Password.builder().locked(true).build());
+    }
+
     public Result<Long> delete(UUID id) {
         try {
             PasswordDAO dao = getBaseDAO();

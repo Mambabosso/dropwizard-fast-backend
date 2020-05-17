@@ -89,6 +89,10 @@ public class UserService extends BaseDAOService<UserDAO> {
         }
     }
 
+    public Result<Long> lockUser(UUID id) {
+        return update(id, User.builder().locked(true).build());
+    }
+
     public Result<Long> delete(UUID id) {
         try {
             UserDAO dao = getBaseDAO();

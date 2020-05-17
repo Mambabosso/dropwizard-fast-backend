@@ -77,6 +77,10 @@ public class TokenService extends BaseDAOService<TokenDAO> {
         }
     }
 
+    public Result<Long> lockToken(UUID id) {
+        return update(id, Token.builder().locked(true).build());
+    }
+
     public Result<Long> delete(UUID id) {
         try {
             TokenDAO dao = getBaseDAO();

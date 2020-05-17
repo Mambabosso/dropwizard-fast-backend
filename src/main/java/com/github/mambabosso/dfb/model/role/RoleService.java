@@ -65,6 +65,10 @@ public class RoleService extends BaseDAOService<RoleDAO> {
         }
     }
 
+    public Result<Long> lockRole(UUID id) {
+        return update(id, Role.builder().locked(true).build());
+    }
+
     public Result<Long> delete(UUID id) {
         try {
             RoleDAO dao = getBaseDAO();
