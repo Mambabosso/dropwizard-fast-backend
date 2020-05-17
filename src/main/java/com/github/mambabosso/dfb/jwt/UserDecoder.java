@@ -19,7 +19,7 @@ public class UserDecoder implements Decoder<User> {
     public Result<User> decode(final String accessToken) {
         try {
             Verification verification = JWT.require(algorithm);
-            verification.withIssuer("dfb");
+            verification.withIssuer("m-dfb");
             DecodedJWT jwt = verification.build().verify(accessToken);
 
             User user = jwt.getClaim("user").as(User.class);

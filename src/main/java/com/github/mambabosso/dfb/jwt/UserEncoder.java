@@ -41,7 +41,7 @@ public class UserEncoder implements Encoder<User> {
             DateTime expiresAt = now.plus(Duration.standardMinutes(10));
 
             JWTCreator.Builder builder = JWT.create();
-            builder.withIssuer("dfb");
+            builder.withIssuer("m-dfb");
             builder.withIssuedAt(now.toDate());
             builder.withExpiresAt(expiresAt.toDate());
             builder.withClaim("user", userToMap(user));

@@ -6,6 +6,7 @@ import lombok.NonNull;
 
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.function.Function;
 
 @EqualsAndHashCode
 public final class Result<T> implements Serializable {
@@ -30,6 +31,10 @@ public final class Result<T> implements Serializable {
             return value;
         }
         throw error.getException();
+    }
+
+    public <X> X unwrap(@NonNull final Function<T, X> function) throws Exception {
+        return function.apply(getOrThrow());
     }
 
     public ErrorCode getError() {
