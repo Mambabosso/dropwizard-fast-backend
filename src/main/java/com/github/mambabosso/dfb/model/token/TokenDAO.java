@@ -4,6 +4,7 @@ import com.github.mambabosso.dfb.dao.BaseDAO;
 import com.querydsl.jpa.hibernate.HibernateUpdateClause;
 import lombok.NonNull;
 import org.hibernate.SessionFactory;
+import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,10 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
         return query().select(_token).from(_token).where(_token.value.eq(value)).fetchFirst();
     }
 
+    public Token getByValueAndType(@NonNull String value, @NonNull TokenType tokenType) {
+        return query().select(_token).from(_token).where(_token.value.eq(value).and(_token.type.eq(tokenType))).fetchFirst();
+    }
+
     @Override
     public long update(@NonNull UUID id, @NonNull Token token) {
         HibernateUpdateClause clause = update(_token).where(_token.id.eq(id));
@@ -51,6 +56,11 @@ public class TokenDAO extends BaseDAO<Token, UUID> {
             evict(getById(id));
         }
         return result;
+    }
+
+    public long deleteAllExpired() {
+        DateTime now = DateTime.now();
+        return delete(_token).where(_token.expiresAt.before(now)).execute();
     }
 
 }

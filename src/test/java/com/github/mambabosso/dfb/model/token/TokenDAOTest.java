@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TokenDAOTest {
 
     private static final DateTime now = DateTime.now();
-    private static final DateTime expiresAt = now.plus(Duration.standardDays(10));
+    private static final DateTime expiresAt = now.plus(Duration.standardMinutes(5));
 
     private static final DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
             .addEntityClass(Token.class)
@@ -43,7 +43,7 @@ public class TokenDAOTest {
         assertNotNull(id1);
 
         id2 = daoTestRule.inTransaction(() -> {
-            return dao.insert(Token.builder().value("token2").type(TokenType.CUSTOM).expiresAt(expiresAt).lastAccess(now).createdAt(now).build());
+            return dao.insert(Token.builder().value("token2").type(TokenType.ID).expiresAt(expiresAt).lastAccess(now).createdAt(now).build());
         });
 
         assertNotNull(id2);
@@ -60,11 +60,17 @@ public class TokenDAOTest {
 
     @Test
     @Order(3)
-    void getById() {
+    void get() {
 
         assertEquals("token1", daoTestRule.inTransaction(() -> dao.getById(id1).getValue()));
 
         assertEquals("token2", daoTestRule.inTransaction(() -> dao.getById(id2).getValue()));
+
+        assertEquals("token1", daoTestRule.inTransaction(() -> dao.getByValue("token1").getValue()));
+
+        assertEquals("token2", daoTestRule.inTransaction(() -> dao.getByValueAndType("token2", TokenType.ID).getValue()));
+
+        assertNull(daoTestRule.inTransaction(() -> dao.getByValueAndType("token1", TokenType.ID)));
 
     }
 
@@ -95,6 +101,26 @@ public class TokenDAOTest {
         assertEquals(1, result);
 
         assertNull(daoTestRule.inTransaction(() -> dao.getById(id2)));
+
+        assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
+
+    }
+
+    @Test
+    @Order(6)
+    void deleteAllExpired() {
+
+        daoTestRule.inTransaction(() -> {
+            return dao.insert(Token.builder().value("token3").type(TokenType.CUSTOM).expiresAt(now.minusMinutes(3)).lastAccess(now).createdAt(now).build());
+        });
+
+        daoTestRule.inTransaction(() -> {
+            return dao.insert(Token.builder().value("token4").type(TokenType.CUSTOM).expiresAt(now.minusMinutes(3)).lastAccess(now).createdAt(now).build());
+        });
+
+        assertEquals(3, daoTestRule.inTransaction(() -> dao.all().size()));
+
+        assertEquals(2, daoTestRule.inTransaction(() -> dao.deleteAllExpired()));
 
         assertEquals(1, daoTestRule.inTransaction(() -> dao.all().size()));
 
