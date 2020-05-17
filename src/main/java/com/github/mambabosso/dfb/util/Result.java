@@ -25,6 +25,13 @@ public final class Result<T> implements Serializable {
         return value;
     }
 
+    public T getOrThrow() throws Exception {
+        if (success) {
+            return value;
+        }
+        throw error.getException();
+    }
+
     public ErrorCode getError() {
         return error;
     }

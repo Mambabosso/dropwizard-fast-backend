@@ -21,10 +21,10 @@ public class UserService extends BaseDAOService<UserDAO> {
 
     public Result<User> create(Validator<String> name, Validator<Password> password, Validator<Set<Role>> roles) {
         try {
-            UserDAO dao = getBaseDAO();
             if (name == null || !name.isValid() || password == null || !password.isValid() || (roles != null && !roles.isValid())) {
                 return Result.failure(Errors.USER_VALIDATION_FAILURE.get());
             }
+            UserDAO dao = getBaseDAO();
             String userName = name.get();
             if (dao.nameExists(userName)) {
                 return Result.failure(Errors.USER_ALREADY_EXISTS.get());

@@ -18,10 +18,10 @@ public class RoleService extends BaseDAOService<RoleDAO> {
 
     public Result<Role> create(Validator<String> name) {
         try {
-            RoleDAO dao = getBaseDAO();
             if (name == null || !name.isValid()) {
                 return Result.failure(Errors.ROLE_VALIDATION_FAILURE.get());
             }
+            RoleDAO dao = getBaseDAO();
             String roleName = name.get();
             if (dao.getRoleByName(roleName).isPresent()) {
                 return Result.failure(Errors.ROLE_ALREADY_EXISTS.get());

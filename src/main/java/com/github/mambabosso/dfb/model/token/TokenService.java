@@ -18,10 +18,10 @@ public class TokenService extends BaseDAOService<TokenDAO> {
 
     public Result<Token> create(Validator<String> value, Validator<TokenType> type, Validator<DateTime> expiresAt) {
         try {
-            TokenDAO dao = getBaseDAO();
             if (value == null || !value.isValid() || type == null || !type.isValid() || !expiresAt.isValid()) {
                 return Result.failure(Errors.TOKEN_VALIDATION_FAILURE.get());
             }
+            TokenDAO dao = getBaseDAO();
             Token token = new Token();
             token.setValue(value.get());
             token.setType(type.get());

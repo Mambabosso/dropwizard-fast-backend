@@ -19,10 +19,10 @@ public class PasswordService extends BaseDAOService<PasswordDAO> {
 
     public Result<Password> create(Validator<String> plain_password) {
         try {
-            PasswordDAO dao = getBaseDAO();
             if (plain_password == null || !plain_password.isValid()) {
                 return Result.failure(Errors.PASSWORD_VALIDATION_FAILURE.get());
             }
+            PasswordDAO dao = getBaseDAO();
             Password password = new Password();
             password.setHash(BCrypt.hashpw(plain_password.get(), BCrypt.gensalt(14)));
             password.setLastAccess(DateTime.now());
